@@ -1,5 +1,5 @@
 import random
-import io
+from pandas import read_csv
 
 MAX_TENTATIVAS = 6
 
@@ -23,7 +23,7 @@ def main():
     # Sorteia uma palavra aleatória da lista
     palavra = lista_palavras[random.randint(0, len(lista_palavras) - 1)]
     NUM_LETRAS = len(palavra)
-
+    print(palavra)
     num_tentativas = 0
     lista_tentativas = []
     ganhou = False
@@ -34,7 +34,7 @@ def main():
     ct = input(f'Digite a palavra ({NUM_LETRAS} letras): ')
     chute = formatar(ct)
 
-    while num_tentativas < MAX_TENTATIVAS and not ganhou:
+    while True:
         if len(chute) == NUM_LETRAS:
             checa_tentativa(palavra, chute, marca)
             linha = [ct, marca[:]]
@@ -42,19 +42,22 @@ def main():
             atualiza_teclado(chute, marca, teclado)
             imprime_resultado(lista_tentativas)
 
+            num_tentativas += 1
             if chute != palavra:
+                if num_tentativas == MAX_TENTATIVAS:
+                    break
                 imprime_teclado(teclado)
                 ct = input('Digite a palavra: ')
                 chute = formatar(ct)
             else:
                 ganhou = True
-            num_tentativas += 1
+                break
         else:
             print(f'Palavra inválida! Lembre-se que o número de letras é {NUM_LETRAS}')
             ct = input('Digite a palavra: ')
             chute = formatar(ct)
     if ganhou:
-        print('PARABÉNS!')
+        print(f'PARABÉNS! Você acertou! A palavra era {palavra}!')
     else:
         imprime_resultado(lista_tentativas)
         print(f'Que pena... A palavra era {palavra}.')
@@ -62,10 +65,7 @@ def main():
 
 def cria_lista_palavras(nome_arquivo):
     """Recebe uma string com o nome do arquivo e devolve uma lista contendo as palavras do arquivo."""
-    ref = io.open(f"JogoSenha/Listas de Palavras/{nome_arquivo}", "r", encoding="utf8")
-    conteudo = ref.read()
-    ref.close()
-    lista_palavras = conteudo.split('\n')
+    lista_palavras = list(read_csv(f'JogoSenha/Listas de Palavras/{nome_arquivo}', header=None)[0])
     # Formata cada palavra da lista
     lista_formatada = []
     for i in range(len(lista_palavras) - 1):
