@@ -6,7 +6,8 @@ MAX_TENTATIVAS = 6
 def main():
     """Implementa o mecanismo principal do jogo."""
     print('\nBem-Vindo ao Jogo de Senha da FEA.dev!\n')
-    print('As regras são simples:', '1. Seu objetivo é adivinhar a palavra secreta, que tem número aleatório de letras.', '2. A cada chute, será mostrado quais letras você errou (_), quais têm na palavra (+) e quais têm e você acertou o lugar (*).', '3. Também a cada chute, serão mostradas todas as suas tentativas e o teclado atualizado sem as letras que não estão na palavra', '\nBOA SORTE!', sep='\n')
+    print('As regras são simples:', '1. Seu objetivo é adivinhar a palavra secreta, que tem número aleatório de letras.', '2. A cada chute, será mostrado quais letras você errou (_), quais estão na palavra mas no lugar errado (+) e quais você acertou o lugar (*).', '3. Também a cada chute, serão mostradas todas as suas tentativas e o teclado atualizado, sem as letras que não estão na palavra', sep='\n')
+    print('\nBOA SORTE!')
     '''# Pede opção de lingua
     lingua = ''
     while lingua != 'P' and lingua != 'I':
