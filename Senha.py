@@ -49,7 +49,7 @@ def main():
                 ganhou = True
             num_tentativas += 1
         else:
-            print(f'Palavra inválida! Lembre-se que o número de letras é {NUM_LETRAS}\n')
+            print(f'Palavra inválida! Lembre-se que o número de letras é {NUM_LETRAS}')
             ct = input('Digite a palavra: ')
             chute = formatar(ct)
     if ganhou:
