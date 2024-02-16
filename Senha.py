@@ -2,13 +2,12 @@ import random
 import io
 
 MAX_TENTATIVAS = 6
-NUM_LETRAS = 5
-
 
 def main():
-    """Implementa mecanismo principal do jogo."""
-
-    # Pede opção de lingua
+    """Implementa o mecanismo principal do jogo."""
+    print('\nBem-Vindo ao Jogo de Senha da FEA.dev!')
+    print('')
+    '''# Pede opção de lingua
     lingua = ''
     while lingua != 'P' and lingua != 'I':
         lingua = input("Qual o idioma? (P para português ou I para inglês) ")
@@ -17,23 +16,25 @@ def main():
     if lingua == 'P':
         lista_palavras = cria_lista_palavras('palavras.txt')
     elif lingua == 'I':
-        lista_palavras = cria_lista_palavras('words.txt')
+        lista_palavras = cria_lista_palavras('words.txt')'''
+    lista_palavras = cria_lista_palavras('dev.txt')
 
     # Sorteia uma palavra aleatória da lista
     palavra = lista_palavras[random.randint(0, len(lista_palavras) - 1)]
+    NUM_LETRAS = len(palavra)
 
     num_tentativas = 0
     lista_tentativas = []
     ganhou = False
     teclado = inicializa_teclado()
-    marca = [0, 0, 0, 0, 0]
+    marca = [0]*NUM_LETRAS
 
     imprime_teclado(teclado)
-    ct = input('Digite a palavra: ').lower()
+    ct = input(f'Digite a palavra ({NUM_LETRAS} letras): ')
     chute = formatar(ct)
 
     while num_tentativas < MAX_TENTATIVAS and not ganhou:
-        if len(chute) == NUM_LETRAS and chute in lista_palavras:
+        if len(chute) == NUM_LETRAS:
             checa_tentativa(palavra, chute, marca)
             linha = [ct, marca[:]]
             lista_tentativas.append(linha[:])
@@ -42,24 +43,21 @@ def main():
 
             if chute != palavra:
                 imprime_teclado(teclado)
-                ct = input('Digite a palavra: ').lower()
+                ct = input('Digite a palavra: ')
                 chute = formatar(ct)
-
             else:
                 ganhou = True
-
             num_tentativas += 1
-
         else:
             print('Palavra inválida!')
-            ct = input('Digite a palavra: ').lower()
+            ct = input('Digite a palavra: ')
             chute = formatar(ct)
-
     if ganhou:
         print('PARABÉNS!')
     else:
         imprime_resultado(lista_tentativas)
         print(f'Que pena... A palavra era {palavra}.')
+
 
 def cria_lista_palavras(nome_arquivo):
     """Recebe uma string com o nome do arquivo e devolve uma lista contendo as palavras do arquivo."""
@@ -74,9 +72,9 @@ def cria_lista_palavras(nome_arquivo):
 
     return lista_formatada
 
-def formatar(palavra):
-    # Formata a palavra, removendo maiúsculas e acentos.
 
+def formatar(palavra):
+    """Formata a palavra, removendo maiúsculas e acentos."""
     letras_palavra = list(palavra.lower())
 
     for i in range(len(palavra)):
@@ -99,41 +97,6 @@ def formatar(palavra):
 
     return nova_palavra
 
-def checa_tentativa(palavra, chute, marca):
-    """ Recebe a palavra secreta e o chute do usuario,
-        verifica se: possui letras certas no lugar certo,
-        atualizando a posicao da lista marca correspondente com 1 (verde),
-        se possui letra certa no lugar errado, atualizando a posicao da lista
-        marca com 2 (amarelo), e 0 caso contrário."""
-    for i in range(len(chute)):
-        if chute[i] in palavra:
-            if chute[i] == palavra[i]:
-                marca[i] = 1
-            else:
-                marca[i] = 2
-        else:
-            marca[i] = 0
-
-
-def imprime_resultado(lista):
-    """ Recebe a lista de tentativas e imprime as tentativas, 
-        usando * para verde, + para amarelo e _ para preto."""
-    for i in range(len(lista)):
-        for j in range(len(lista[i])):
-            if j % 2 == 0:
-                print(lista[i][j])
-            else:
-                marca_str = ''
-                for caracter in lista[i][j]:
-                    if caracter == 1:
-                        marca_str += '*'
-                    elif caracter == 2:
-                        marca_str += '+'
-                    else:
-                        marca_str += '_'
-                print(marca_str)
-
-
 
 def inicializa_teclado():
     """Inicializa o teclado com as teclas na ordem."""
@@ -153,14 +116,48 @@ def imprime_teclado(teclado):
     print('-----------------------------------------')
 
 
+def checa_tentativa(palavra, chute, marca):
+    """Recebe a palavra secreta e o chute do usuario e verifica:
+    se possui letras certas no lugar certo -> atualiza a posicao da lista marca correspondente com 1 (verde),
+    se possui letra certa no lugar errado -> atualiza a posicao da lista marca com 2 (amarelo)
+    e -> 0 caso contrário."""
+    for i in range(len(chute)):
+        if chute[i] in palavra:
+            if chute[i] == palavra[i]:
+                marca[i] = 1
+            else:
+                marca[i] = 2
+        else:
+            marca[i] = 0
+
+
 def atualiza_teclado(chute, marca, teclado):
-    # Modifica teclado para que as letras marcadas como inexistentes no chute sejam substituídas por espaços.
+    """Modifica o teclado para que as letras do chute que não estejam na palavra secreta sejam substituídas por espaços."""
     for i in range(len(chute)):
         if marca[i] == 0:
             for l in range(len(teclado)):
                 for c in range(len(teclado[l])):
                     if teclado[l][c] == chute[i]:
                         teclado[l][c] = ' '
+
+
+def imprime_resultado(lista):
+    """Recebe a lista de tentativas e as imprime, 
+       usando * para verde, + para amarelo e _ para preto."""
+    for i in range(len(lista)):
+        for j in range(len(lista[i])):
+            if j % 2 == 0:
+                print(lista[i][j])
+            else:
+                marca_str = ''
+                for caracter in lista[i][j]:
+                    if caracter == 1:
+                        marca_str += '*'
+                    elif caracter == 2:
+                        marca_str += '+'
+                    else:
+                        marca_str += '_'
+                print(marca_str)
 
 
 if __name__ == "__main__":
