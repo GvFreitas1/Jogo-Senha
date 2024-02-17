@@ -1,29 +1,29 @@
 import random
 from pandas import read_csv
 
-MAX_TENTATIVAS = 6
-
 def main():
     """Implementa o mecanismo principal do jogo."""
     print('\nBem-Vindo ao Jogo de Senha da FEA.dev!\n')
     print('As regras são simples:', '1. Seu objetivo é adivinhar a palavra secreta, que tem número aleatório de letras.', '2. A cada chute, será mostrado quais letras você errou (_), quais estão na palavra mas no lugar errado (+) e quais você acertou o lugar (*).', '3. Também a cada chute, serão mostradas todas as suas tentativas e o teclado atualizado, sem as letras que não estão na palavra', sep='\n')
-    print('\nBOA SORTE!')
-    '''# Pede opção de lingua
-    lingua = ''
-    while lingua != 'P' and lingua != 'I':
-        lingua = input("Qual o idioma? (P para português ou I para inglês) ")
+    
+    sorteio = random.randint(0, 2)
 
     # Carrega lista de palavras do arquivo correspondente
-    if lingua == 'P':
-        lista_palavras = cria_lista_palavras('palavras.txt')
-    elif lingua == 'I':
-        lista_palavras = cria_lista_palavras('words.txt')'''
-    lista_palavras = cria_lista_palavras('palavras.txt')
+    if sorteio == 0:
+        lista_palavras = cria_lista_palavras('frutas.txt')
+        print('\nO tema do Jogo será: Frutas')
+    elif sorteio == 1:
+        lista_palavras = cria_lista_palavras('sobremesas.txt')
+        print('\nO tema do Jogo será: Sobremesas')
+    elif sorteio == 2:
+        lista_palavras = cria_lista_palavras('frutas.txt')
+        print('\nO tema do Jogo será: PALAVRAS DE 5 LETRAS EM Ingreis')
+    print('\nBOA SORTE!')
 
     # Sorteia uma palavra aleatória da lista
     palavra = lista_palavras[random.randint(0, len(lista_palavras) - 1)]
     NUM_LETRAS = len(palavra)
-    print(palavra)
+
     num_tentativas = 0
     lista_tentativas = []
     ganhou = False
@@ -35,7 +35,7 @@ def main():
     chute = formatar(ct)
 
     while True:
-        if len(chute) == NUM_LETRAS:
+        if len(chute) == NUM_LETRAS and chute in lista_palavras:
             checa_tentativa(palavra, chute, marca)
             linha = [ct, marca[:]]
             lista_tentativas.append(linha[:])
@@ -44,7 +44,7 @@ def main():
 
             num_tentativas += 1
             if chute != palavra:
-                if num_tentativas == MAX_TENTATIVAS:
+                if num_tentativas == NUM_LETRAS:
                     break
                 imprime_teclado(teclado)
                 ct = input('Digite a palavra: ')
