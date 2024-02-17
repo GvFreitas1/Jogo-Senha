@@ -3,8 +3,8 @@ from pandas import read_csv
 
 def main():
     """Implementa o mecanismo principal do jogo."""
-    print('\nBem-Vindo ao Jogo de Senha da FEA.dev!\n')
-    print('As regras são simples:', '1. Seu objetivo é adivinhar a palavra secreta, que tem número aleatório de letras.', '2. A cada chute, será mostrado quais letras você errou (_), quais estão na palavra mas no lugar errado (+) e quais você acertou o lugar (*).', '3. Também a cada chute, serão mostradas todas as suas tentativas e o teclado atualizado, sem as letras que não estão na palavra', sep='\n')
+    print('\nBem-Vindo ao Termo da FEA.dev!\n')
+    print('As regras são simples:', '1. Seu objetivo é adivinhar a palavra secreta, que tem número aleatório de letras.', '2. A cada chute, será mostrado quais letras você errou (_), quais estão na palavra mas no lugar errado (+) e quais você acertou o lugar (*).', '3. Também a cada chute, serão mostradas todas as suas tentativas e o teclado atualizado, sem as letras que não estão na palavra','Obs: Não se preocupe com acentos e letras maiúsculas.', sep='\n')
     
     sorteio = random.randint(0, 2)
 
@@ -54,15 +54,15 @@ def main():
                 break
         elif len(chute) != NUM_LETRAS:
                 print(f'Palavra inválida! Lembre-se que o número de letras é {NUM_LETRAS}\n')
-                ct = input('Digite a palavra: ')
+                ct = input(f'Digite a palavra (Restam {NUM_LETRAS - num_tentativas} chances): ')
                 chute = formatar(ct)
         elif chute not in lista_palavras:
                 print(f'Ops! A palavra não é válida...Tente de novo\n')
-                ct = input('Digite a palavra: ')
+                ct = input(f'Digite a palavra (Restam {NUM_LETRAS - num_tentativas} chances): ')
                 chute = formatar(ct)
         else:
                 print(f'Palavra repetida! Tente novamente\n')
-                ct = input('Digite a palavra: ')
+                ct = input(f'Digite a palavra (Restam {NUM_LETRAS - num_tentativas} chances): ')
                 chute = formatar(ct)
     if ganhou:
         print(f'PARABÉNS! Você acertou! A palavra era {palavra}.')
