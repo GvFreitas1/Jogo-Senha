@@ -10,14 +10,14 @@ def main():
 
     # Carrega lista de palavras do arquivo correspondente
     if sorteio == 0:
-        lista_palavras = cria_lista_palavras('frutas.txt')
         print('\nO tema do Jogo será: Frutas')
-    elif sorteio == 1:
-        lista_palavras = cria_lista_palavras('sobremesas.txt')
-        print('\nO tema do Jogo será: Sobremesas')
-    elif sorteio == 2:
         lista_palavras = cria_lista_palavras('frutas.txt')
-        print('\nO tema do Jogo será: PALAVRAS DE 5 LETRAS EM Ingreis')
+    elif sorteio == 1:
+        print('\nO tema do Jogo será: Sobremesas')
+        lista_palavras = cria_lista_palavras('sobremesas.txt')
+    else:
+        print('\nO tema do Jogo será: Geral')
+        lista_palavras = cria_lista_palavras('palavras.txt')
     print('\nBOA SORTE!')
 
     # Sorteia uma palavra aleatória da lista
@@ -35,7 +35,7 @@ def main():
     chute = formatar(ct)
 
     while True:
-        if len(chute) == NUM_LETRAS and chute in lista_palavras:
+        if len(chute) == NUM_LETRAS and chute in lista_palavras and not any(chute in lista for lista in lista_tentativas):
             checa_tentativa(palavra, chute, marca)
             linha = [ct, marca[:]]
             lista_tentativas.append(linha[:])
@@ -47,17 +47,26 @@ def main():
                 if num_tentativas == NUM_LETRAS:
                     break
                 imprime_teclado(teclado)
-                ct = input('Digite a palavra: ')
+                ct = input(f'Digite a palavra (Restam {NUM_LETRAS - num_tentativas} chances): ')
                 chute = formatar(ct)
             else:
                 ganhou = True
                 break
         else:
-            print(f'Palavra inválida! Lembre-se que o número de letras é {NUM_LETRAS}')
-            ct = input('Digite a palavra: ')
-            chute = formatar(ct)
+            if len(chute) != NUM_LETRAS:
+                print(f'Palavra inválida! Lembre-se que o número de letras é {NUM_LETRAS}\n')
+                ct = input('Digite a palavra: ')
+                chute = formatar(ct)
+            elif chute not in lista_palavras:
+                print(f'Ops! A palavra não é válida...Tente de novo\n')
+                ct = input('Digite a palavra: ')
+                chute = formatar(ct)
+            else:
+                print(f'Palavra repetida! Tente novamente\n')
+                ct = input('Digite a palavra: ')
+                chute = formatar(ct)
     if ganhou:
-        print(f'PARABÉNS! Você acertou! A palavra era {palavra}!')
+        print(f'PARABÉNS! Você acertou! A palavra era {palavra}.')
     else:
         imprime_resultado(lista_tentativas)
         print(f'Que pena... A palavra era {palavra}.')
