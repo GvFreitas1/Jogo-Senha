@@ -52,16 +52,15 @@ def main():
             else:
                 ganhou = True
                 break
-        else:
-            if len(chute) != NUM_LETRAS:
+        elif len(chute) != NUM_LETRAS:
                 print(f'Palavra inválida! Lembre-se que o número de letras é {NUM_LETRAS}\n')
                 ct = input('Digite a palavra: ')
                 chute = formatar(ct)
-            elif chute not in lista_palavras:
+        elif chute not in lista_palavras:
                 print(f'Ops! A palavra não é válida...Tente de novo\n')
                 ct = input('Digite a palavra: ')
                 chute = formatar(ct)
-            else:
+        else:
                 print(f'Palavra repetida! Tente novamente\n')
                 ct = input('Digite a palavra: ')
                 chute = formatar(ct)
