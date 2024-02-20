@@ -6,7 +6,7 @@ def main():
     print('\nBem-Vindo ao Termo da FEA.dev!\n')
     print('As regras são simples:', '1. Seu objetivo é adivinhar a palavra secreta, que tem número aleatório de letras.', '2. A cada chute, será mostrado quais letras você errou (_), quais estão na palavra mas no lugar errado (+) e quais você acertou o lugar (*).', '3. Também a cada chute, serão mostradas todas as suas tentativas e o teclado atualizado, sem as letras que não estão na palavra','Obs: Não se preocupe com acentos e letras maiúsculas.', sep='\n')
     
-    sorteio = random.randint(0, 2)
+    """sorteio = random.randint(0, 2)
 
     # Carrega lista de palavras do arquivo correspondente
     if sorteio == 0:
@@ -17,7 +17,8 @@ def main():
         lista_palavras = cria_lista_palavras('sobremesas.txt')
     else:
         print('\nO tema do Jogo será: Geral')
-        lista_palavras = cria_lista_palavras('palavras.txt')
+        lista_palavras = cria_lista_palavras('palavras.txt')"""
+    lista_palavras = cria_lista_palavras('palavras.txt')
     print('\nBOA SORTE!')
 
     # Sorteia uma palavra aleatória da lista
